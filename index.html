@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nicholas Pietronuto</title>
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Trade+Winds&display=swap" rel="stylesheet">
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
         <style>
             @font-face {
                 font-family: 'GloriaHallelujah';
@@ -25,11 +32,11 @@
                 text-shadow: 4px 4px 4px rgb(0, 0, 0);
                 box-shadow: 0px 5px 10px rgb(0, 0, 0);
                 color: rgb(228, 125, 51);
-                font-family: 'GloriaHallelujah';
+                font-family: 'Fugaz One';
             }
             .projectTitle {
-                font-family: 'GloriaHallelujah';
-                color: rgb(255, 235, 216);
+                font-family: 'Rethink Sans';
+                color:aliceblue;
                 font-size: 30px;
             }
             .ProjectBox {
@@ -50,6 +57,11 @@
                 margin-left: 40px;
                 flex-direction: column;
             }
+            .ProjectDescription {
+                font-family: 'Rethink Sans';
+                color: aliceblue;
+                font-size: large;
+            }
         </style>
     </head>
 
@@ -59,6 +71,11 @@
         </h1>
         <div class="ProjectBox">
             <p class = "projectTitle"> GPU Accelerated Raytracer </p>
+            <p class="ProjectDescription"> 
+                Pathtracer: a program that simulates millions of light rays, their reflections and respective color changes. 
+                I used physical concepts like Fresnel Relfection Equations, color absorbtion, and basic optical properties. 
+                Below is the image my program produced and a snippet of the code.
+            </p>
             <div class="ProjectImageBox">
                 <img src="Assets\Images\PathtracerExample.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="697" height="493">
                 <img src="Assets\Images\PathtracerCode.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="697" height="493">
@@ -67,6 +84,10 @@
         <hr style="border: 2px dashed #5b5b5b;">
         <div class="ProjectBox">
             <p class = "projectTitle"> Petrol Powered Go-Kart </p>
+            <p class="ProjectDescription"> 
+                Built a three wheeled go-kart by desiging it on my computer, cutting steel by hand,  sourcing cheap parts with money
+                 I made from work, welding, and cutting steel with a saw.
+            </p>
             <div class="ProjectImageBox">
                 <video controls autoplay loop muted playsinline class="ProjectImage" width="356" height="633">
                     <source src="Assets\Images\RidingTrike.mp4">
@@ -81,10 +102,15 @@
         <hr style="border: 3px dashed #5b5b5b;">
         <div class="ProjectBox">
             <p class = "projectTitle"> Mandelbrot Fractal Explorer </p>
+            <p class="ProjectDescription"> 
+                Created by Benoit Mandelbrot, this amazing mathematical shape, modeled by the simple equation $$ z_{n+1} = z_n^2 + c $$ can be zoomed in on infinitely and never repeat the same exact pattern (can only zoom in so far because of computer limitations).
+                I programmed this to run in paralell on the Graphics Processing Unit to increase framerate. Below is a snippet of the code I wrote.
+            </p>
             <div class="ProjectImageBox">
-                <video controls autoplay loop muted playsinline class="ProjectImage" width="582" height="466">
+                <video controls autoplay loop muted playsinline class="ProjectImage" width="640" height="360">
                     <source src="Assets\Images\MandelbrotZoomVideo.mp4">
                 </video>
+                <img src="Assets\Images\MandelbrotCode.png" alt="MandelbrotCode" class="ProjectImage" width="601" height="445">
             </div>
         </div>
     </body>
