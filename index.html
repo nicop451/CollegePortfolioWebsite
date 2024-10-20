@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nicholas Pietronuto</title>
+
+        <style>
+            @font-face {
+                font-family: 'GloriaHallelujah';
+                src: url('Assets/GloriaHallelujah-Regular.ttf');
+            }
+            body {
+                margin: 0;
+                background-color: rgb(41, 46, 51);
+            }
+            h1 {
+                border: none;
+                margin: 0;
+                padding: 60px;
+                background-color: rgb(38, 42, 47);
+                line-height: 00px;
+                font-size: 60px;
+                text-align: left;
+                text-shadow: 4px 4px 4px rgb(0, 0, 0);
+                box-shadow: 0px 5px 10px rgb(0, 0, 0);
+                color: rgb(228, 125, 51);
+                font-family: 'GloriaHallelujah';
+            }
+            .projectTitle {
+                font-family: 'GloriaHallelujah';
+                color: rgb(255, 235, 216);
+                font-size: 30px;
+            }
+            .ProjectBox {
+                padding:40px;
+                box-shadow: 5px 5px 10px rgb(30, 34, 37);
+            }
+            .ProjectImageBox {
+                display: flex;
+                flex-direction: row;
+            }
+            .ProjectImage {
+                box-shadow: 5px 5px 5px rgb(0, 0, 0);
+                margin: 10px;
+                border-radius: 5px;
+            }
+            .horizontalFlex {
+                display: flex;
+                margin-left: 40px;
+                flex-direction: column;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>
+            Hi! I'm Nicholas Pietronuto
+        </h1>
+        <div class="ProjectBox">
+            <p class = "projectTitle"> GPU Accelerated Raytracer </p>
+            <div class="ProjectImageBox">
+                <img src="Assets\Images\PathtracerExample.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="697" height="493">
+                <img src="Assets\Images\PathtracerCode.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="697" height="493">
+            </div>
+        </div>
+        <hr style="border: 3px dashed #5b5b5b;">
+        <div class="ProjectBox">
+            <p class = "projectTitle"> Petrol Powered Go-Kart </p>
+            <div class="ProjectImageBox">
+                <video controls autoplay loop muted playsinline class="ProjectImage" width="356" height="633">
+                    <source src="Assets\Images\RidingTrike.mp4">
+                </video>
+                <img src="Assets\Images\Blendertrike.png" alt="Image of Trike Design in Blender" class="ProjectImage" style="margin-left: 40px" width="657" height="646">
+                <div class="horizontalFlex">
+                    <img src="Assets\Images\TrikeEngineBack.png" alt="Image of Trike Engine Back" class="ProjectImage" width="271" height="362">
+                    <img src="Assets\Images\Welding.jpg" alt="Image of Me Welding" class="ProjectImage" width="281" height="284">
+                </div>
+            </div>
+        </div>
+        <hr style="border: 3px dashed #5b5b5b;">
+        <div class="ProjectBox">
+            <p class = "projectTitle"> Mandelbrot Fractal Explorer </p>
+            <div class="ProjectImageBox">
+                <img src="Assets\Images\Mandelbrot.png" alt="Image of Mandelbrot" class="ProjectImage" width="582" height="466">
+                <img src="Assets\Images\Mandelbrot.png" alt="Image of Trike Design in Blender" class="ProjectImage" width="582" height="466">
+            </div>
+        </div>
+    </body>
+</html>
