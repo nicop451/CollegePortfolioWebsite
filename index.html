@@ -76,6 +76,7 @@
     </head>
 
     <body>
+        <!-- Front Page -->
         <h1>
             <div style="padding-left: 80px;"> 
                 <p style="font-size: 30px; line-height: 1; margin: 0;">
@@ -92,6 +93,8 @@
             <img src="Assets\Images\Headshot.jpg" alt="Photo of me" class="CoverPageImage" width="444" height="555">
         </h1>
         
+        <!-- Go-Kart -->
+
         <div class="ProjectBox">
             <p class = "projectTitle"> Petrol Powered Go-Kart </p>
             <p class="ProjectDescription"> 
@@ -109,14 +112,22 @@
                 </div>
             </div>
         </div>
-        <hr style="border: 2px dashed #5b5b5b;">
+
+
+        <!-- Pathtracer -->
 
         <div class="ProjectBox">
             <p class = "projectTitle"> GPU Accelerated Raytracer </p>
             <p class="ProjectDescription"> 
                 Pathtracer: a program that simulates millions of light rays, their reflections and respective color changes. 
                 I used physical concepts like Fresnel Relfection Equations, color absorbtion, and basic optical properties. 
-                Below is the image my program produced and a snippet of the code.
+                Below is the equation used, the image my program produced, and a snippet of the code.
+
+                \begin{equation}
+                L_o(\mathbf{x}, \omega_o) = L_e(\mathbf{x}, \omega_o) + 
+                \int_{\Omega} f_r(\mathbf{x}, \omega_i, \omega_o) L_i(\mathbf{x}, \omega_i) 
+                \left|\cos(\theta_i)\right| \, d\omega_i
+                \end{equation}
             </p>
             <div class="ProjectImageBox">
                 <img src="Assets\Images\PathtracerExample.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="697" height="493">
@@ -125,9 +136,9 @@
         </div>
 
 
-        
+        <!-- Mandelbrot -->
 
-        <hr style="border: 3px dashed #5b5b5b;">
+        <hr style="border: 2px dashed #5b5b5b;">
 
         <div class="ProjectBox">
             <p class = "projectTitle"> Mandelbrot Fractal Plotter </p>
@@ -143,6 +154,8 @@
             </div>
         </div>
 
+        <!-- Future Fest -->
+
         <div class="ProjectBox">
             <p class="projectTitle"> Created 3D Models For NFT Videogame Future Fest </p>
             <p class="ProjectDescription"> 
@@ -152,6 +165,24 @@
             <div class="ProjectImageBox">
                 <img src="Assets\Images\FutureFestHomeScreen.png" alt="FutureFestHomeScreen" class="ProjectImage" width="673" height="511">
                 <img src="Assets\Images\FutureFestStore.png" alt="FutureFestStore" class="ProjectImage" width="704" height="354">
+            </div>
+        </div>
+
+        <!-- Physics Simulations -->
+
+        <div class="ProjectBox">
+            <p class="projectTitle"> Physics Simulations </p>
+            <p class="ProjectDescription"> 
+                Applied concepts learned in AP Physics to program multiple physics
+                simulations including a cloth sim, particle physics simulation that uses sparse-grid collision optimization, and a gravity sim.
+            </p>
+            <div class="ProjectImageBox">
+                <video autoplay loop muted playsinline class="ProjectImage" width="720" height="540">
+                    <source src="Assets\Images\ClothSimVid.mp4">
+                </video>
+                <video autoplay loop muted playsinline class="ProjectImage" width="540" height="540">
+                    <source src="Assets\Images\GalaxyVid.mp4">
+                </video>
             </div>
         </div>
 
