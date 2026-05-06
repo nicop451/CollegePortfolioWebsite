@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nicholas Pietronuto</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Trade+Winds&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+        
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+        
+        <style>
+            @font-face {
+                font-family: 'GloriaHallelujah';
+                src: url('Assets/GloriaHallelujah-Regular.ttf');
+            }
+            body {
+                margin: 0;
+                background-color: rgb(41, 46, 51);
+            }
+            h1 {
+                border: none;
+                margin: 0;
+                padding: 60px;
+                background-color: rgb(38, 42, 47);
+                
+                font-size: 60px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                text-shadow: 2px 2px 4px rgb(0, 0, 0);
+                box-shadow: 0px 5px 10px rgb(0, 0, 0);
+                color: rgb(207, 231, 252);
+                font-family: 'Rethink Sans';
+            }
+            .projectTitle {
+                font-family: 'Rethink Sans';
+                color:aliceblue;
+                font-size: 30px;
+            }
+
+            .CoverPageImage {
+                box-shadow: 6px 6px 0px rgb(0, 0, 0);
+                margin-left: 100px;
+                border-radius: 5px;
+            }
+            .ProjectBox {
+                padding:40px;
+                box-shadow: 5px 5px 10px rgb(30, 34, 37);
+            }
+            .ProjectImageBox {
+                display: flex;
+                flex-direction: row;
+            }
+            .ProjectImage {
+                box-shadow: 5px 5px 5px rgb(0, 0, 0);
+                margin: 10px;
+                border-radius: 5px;
+            }
+            .horizontalFlex {
+                display: flex;
+                margin-left: 40px;
+                flex-direction: column;
+            }
+            .ProjectDescription {
+                font-family: 'Rethink Sans';
+                color: aliceblue;
+                font-size: large;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Front Page -->
+        <h1>
+            <div style="padding-left: 80px;"> 
+                <p style="font-size: 30px; line-height: 1; margin: 0;">
+                    Hello I am <br>
+                </p>
+                <p style="font-size: 80px; color: rgb(0, 128, 255); line-height: 1.2; margin: 0; text-shadow: 8px 8px 2px rgb(0, 0, 0);">
+                    Nicholas Pietronuto. <br>
+                </p>
+                <p style="font-size: 50px; color: rgb(134, 146, 146); line-height: 1; margin: 0;">
+                    These are my projects <br>
+                </p>
+                
+            </div>
+            <img src="Assets\Images\Headshot.jpg" alt="Photo of me" class="CoverPageImage" width="444" height="555">
+        </h1>
+        
+        <!-- Go-Kart -->
+
+        <div class="ProjectBox">
+            <p class = "projectTitle"> Petrol Powered Go-Kart </p>
+            <p class="ProjectDescription"> 
+                Built a three wheeled go-kart by desiging it on my computer, cutting steel by hand,  sourcing cheap parts with money
+                 I made from work, welding, and cutting steel with a saw.
+            </p>
+            <div class="ProjectImageBox">
+                <video autoplay muted loop playsinline class="ProjectImage" width="356" height="633">
+                    <source src="Assets\Images\RidingTrike.mp4">
+                </video>
+                <img src="Assets\Images\Blendertrike.png" alt="Image of Trike Design in Blender" class="ProjectImage" style="margin-left: 40px" width="657" height="646">
+                <div class="horizontalFlex">
+                    <img src="Assets\Images\TrikeEngineBack.png" alt="Image of Trike Engine Back" class="ProjectImage" width="271" height="362">
+                    <img src="Assets\Images\Welding.jpg" alt="Image of Me Welding" class="ProjectImage" width="281" height="284">
+                </div>
+            </div>
+        </div>
+
+        <div class="ProjectBox">
+            <p class="projectTitle"> FIRST Robotics Team</p>
+            <p class="ProjectDescription"> 
+                I designed the entire arm on the front of the robot that is responsible for intaking and shooting the ball into the net.
+                I used Onshape, a CAD design platform, to design it. Our team then used a CNC machine to cut the arm plates out of polycarbonate.
+            </p>
+            <div class="ProjectImageBox">
+                <div class="horizontalFlex">
+                    <video autoplay loop muted playsinline class="ProjectImage" width="804 * 1.9" height="553 * 1.9">
+                        <source src="Assets\Images\RobotShooter.mp4">
+                    </video>
+ 
+                </div>
+                <video autoplay loop muted playsinline class="ProjectImage" width="440" height="640">
+                    <source src="Assets\Images\EdittedShot.mp4">
+                </video>
+            </div>
+        </div>
+
+        <div class="ProjectBox">
+            <p class = "projectTitle"> 3D Printable Prosthetic Hand </p>
+            <p class="ProjectDescription"> 
+                I designed a prosthetic hand that snaps together and is functional through the use of actuating strings and rubber bands.
+                The way I designed the mechanism makes it adapt to complex surfaces.
+            </p>
+            <div class="ProjectImageBox">
+                <img src="Assets\Images\HandHoldingCandle.png" alt="HandHoldingCandle" class="ProjectImage" width="416" height="555.5">
+                <img src="Assets\Images\HandInFirst.png" alt="Image of Infinie Reflection Spheres" class="ProjectImage" width="429" height="572">
+                <img src="Assets\Images\HandCAD.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="511" height="605">
+            </div>
+        </div>
+
+        <!-- Pathtracer -->
+
+        <div class="ProjectBox">
+            <p class = "projectTitle"> GPU Accelerated Raytracer </p>
+            <p class="ProjectDescription"> 
+                Pathtracer: a program that simulates millions of light rays, their reflections and respective color changes. 
+                I used physical concepts like Fresnel Relfection Equations, color absorbtion, and basic optical properties. 
+                Below is the equation used, the image my program produced, and a snippet of the code.
+
+                \begin{equation}
+                L_o(\mathbf{x}, \omega_o) = L_e(\mathbf{x}, \omega_o) + 
+                \int_{\Omega} f_r(\mathbf{x}, \omega_i, \omega_o) L_i(\mathbf{x}, \omega_i) 
+                \left|\cos(\theta_i)\right| \, d\omega_i
+                \end{equation}
+            </p>
+            <div class="ProjectImageBox">
+                <img src="Assets\Images\PathtracerExample.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="697" height="493">
+                <img src="Assets\Images\PathtracerCode.png" alt="Image of Infinite Reflection Spheres" class="ProjectImage" width="697" height="493">
+            </div>
+        </div>
+
+        <!-- DealFinder -->
+
+        <div class="ProjectBox">
+            <p class = "projectTitle"> Deal Finder AI</p>
+            <p class="ProjectDescription"> 
+                DealFinder combines webscraping with LLM's ability to estimate the value of a product based on complex chracteristics
+                 in the product's listing title. Using this AI estimated price, my program sorts the products for those whose listed 
+                 price is significantly lower than the estimation. This can be used to find products that can be flipped for a profit.
+            </p>
+            <div class="ProjectImageBox" style="display:flex; justify-content:center;">
+                <video autoplay loop muted playsinline class="ProjectImage" width="920" height="540">
+                    <source src="Assets\Images\DealFinder.mp4">
+                </video>
+            </div>
+        </div>
+
+
+        <!-- Mandelbrot -->
+
+
+        <div class="ProjectBox">
+            <p class = "projectTitle"> Mandelbrot Fractal Plotter</p>
+            <p class="ProjectDescription"> 
+                Created by Benoit Mandelbrot, this amazing mathematical shape, modeled by the simple equation $$ z_{n+1} = z_n^2 + c $$ can be zoomed in on infinitely and never repeat the same exact pattern (can only zoom in so far because of computer limitations).
+                I programmed this to run in parallel on the Graphics Processing Unit to increase framerate. Below is a snippet of the code I wrote.
+            </p>
+            <div class="ProjectImageBox">
+                <video autoplay loop muted playsinline class="ProjectImage" width="768" height="432">
+                    <source src="Assets\Images\MandelbrotZoomVideo.mp4">
+                </video>
+                <img src="Assets\Images\MandelbrotCode.png" alt="MandelbrotCode" class="ProjectImage" width="595" height="440">
+            </div>
+        </div>
+
+        <!-- Future Fest -->
+
+        <div class="ProjectBox">
+            <p class="projectTitle"> Created 3D Models For NFT Videogame Future Fest </p>
+            <p class="ProjectDescription"> 
+                Did Paid 3D modelling work for a videogame called Future Fest. I worked primarily on character accessories. 
+                Below is a character with my model as a hat and the NFT store with characters whose hats I created. 
+            </p>
+            <div class="ProjectImageBox">
+                <img src="Assets\Images\FutureFestHomeScreen.png" alt="FutureFestHomeScreen" class="ProjectImage" width="673" height="511">
+                <img src="Assets\Images\FutureFestStore.png" alt="FutureFestStore" class="ProjectImage" width="704" height="354">
+            </div>
+        </div>
+
+        <!-- Physics Simulations -->
+
+        <div class="ProjectBox">
+            <p class="projectTitle"> Physics Simulations </p>
+            <p class="ProjectDescription"> 
+                Applied concepts learned in AP Physics to program multiple physics
+                simulations including a cloth sim, particle physics simulation that uses sparse-grid collision optimization, and a gravity sim.
+            </p>
+            <div class="ProjectImageBox">
+                <div class="horizontalFlex">
+                    <video autoplay loop muted playsinline class="ProjectImage" width="604" height="453">
+                        <source src="Assets\Images\ClothSimVid.mp4">
+                    </video>
+                    <video autoplay loop muted playsinline class="ProjectImage" width="540" height="540">
+                        <source src="Assets\Images\GalaxyVid.mp4">
+                    </video>
+                </div>
+                <video autoplay loop muted playsinline class="ProjectImage" width="748" height="421">
+                    <source src="Assets\Images\VerletSim.mp4">
+                </video>
+            </div>
+        </div>
+        
+
+    </body>
+</html>
