@@ -1,0 +1,6 @@
+.git
+.gitattributes
+.github
+_storage
+node_modules
+*.log
