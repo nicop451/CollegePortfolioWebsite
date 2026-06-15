@@ -1,0 +1,17 @@
+{
+  "name": "Nico Dashboard",
+  "short_name": "Nico",
+  "description": "Personal app dashboard",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07090f",
+  "theme_color": "#07090f",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

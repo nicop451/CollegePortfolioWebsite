@@ -1,10 +1,10 @@
 ---
-description: Read AGENT_WORKFLOW.md before and after every prompt; always deploy with flyctl
+description: Portfolio on GitHub Pages only — no Fly.io; push to main after changes
 alwaysApply: true
 ---
 
 # Agent workflow
 
 1. **Before working:** Read [AGENT_WORKFLOW.md](../AGENT_WORKFLOW.md) in the project root.
-2. **After finishing:** Read it again, then run `flyctl deploy --remote-only` from the project root whenever app files changed. Do not mark the task complete until deploy succeeds (unless the user opted out).
-3. Live URL: https://nicholaspietronuto.fly.dev/ — app name `nicholaspietronuto`.
+2. **Hosting:** GitHub Pages only. Do **not** use Fly.io, `flyctl`, Dockerfile, or nginx for this project.
+3. **After finishing:** Commit and push site changes to `main` on `nicop451/CollegePortfolioWebsite`. Live URL: https://nicholaspietronuto.com

@@ -1,49 +1,39 @@
-# Agent Workflow — Nico Dashboard
+# Agent Workflow — Nicholas Pietronuto Portfolio
 
 **Read this file at the start of every user prompt and again before sending the final response.**
 
 ---
 
-## Deploy (required)
+## Hosting (GitHub Pages only)
 
-After any change to the live app (HTML, CSS, JS, nginx, Dockerfile, fly.toml, icons, manifest, service worker):
+This site is a static portfolio published via **GitHub Pages** — not Fly.io.
 
-1. Run from project root: `flyctl deploy --remote-only`
-2. Confirm deploy succeeded before telling the user the work is done
-3. Live app: **https://nicholaspietronuto.fly.dev/** (Fly app: `nicholaspietronuto`)
+- Repo: `https://github.com/nicop451/CollegePortfolioWebsite`
+- Live URL: **https://nicholaspietronuto.com** (via `CNAME` file)
+- Source branch: `main` (root)
 
-Do not skip deploy unless the user explicitly says not to deploy for that task.
+After site changes: commit and push to `main`. GitHub Pages rebuilds automatically.
 
 ---
 
 ## Project layout
 
-| Active (deployed) | Archived (not served) |
-|-------------------|------------------------|
-| `index.html`, `books.html`, `styles.css`, `script.js`, `books.js`, `sw.js`, `manifest.json`, `icons/` | `_storage/` — old portfolio, assets, local dev |
-
-Deploy stack: nginx on Fly.io (`Dockerfile`, `fly.toml`, `nginx.conf`).
+| Active (published) | Archived (not served) |
+|--------------------|------------------------|
+| `index.html`, `styles.css`, `script.js`, `Assets/`, `experimental.html`, `CNAME` | `_storage/` — dashboard app, Fly deploy files, backups |
 
 ---
 
-## UI conventions
+## Portfolio notes
 
-- Dark glass dashboard style (`--bg`, `--accent`, `--glass-bg`, Inter + JetBrains Mono)
-- Global click particle effect lives in `script.js` — keep it on all pages
-- New features: link from dashboard with `text-link` style (e.g. `books -->`)
-
----
-
-## Books feature
-
-- Search uses **Open Library** via same-origin proxy `/api/books/search` (never call Google Books or openlibrary.org directly from the browser)
-- Library persisted in browser `localStorage` (`nico.books.library.v1`)
+- Vanilla HTML/CSS/JS — no build step
+- Videos use two-phase IntersectionObserver lazy loading in `script.js`
+- Asset paths use forward slashes (`Assets/Images/...`)
 
 ---
 
 ## End-of-task checklist
 
 - [ ] Read this file again
-- [ ] Changes match existing UI/style
-- [ ] `flyctl deploy --remote-only` run if app files changed
-- [ ] User told where to verify (fly.dev URL)
+- [ ] Changes committed and pushed to `main` if site files changed
+- [ ] User told to verify at nicholaspietronuto.com

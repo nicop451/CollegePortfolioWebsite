@@ -1,8 +1,10 @@
-# Archived content (not deployed)
+# Archived content (not published)
 
-This folder holds the previous portfolio site, assets, and local tooling. It is excluded from the Docker image via `.dockerignore` and is not served by the live app.
+| Folder | Contents |
+|--------|----------|
+| `portfolio-site/` | Portfolio backup copy |
+| `dashboard-app/` | Nico dashboard + books feature + PWA |
+| `fly-deploy/` | Former Fly.io deploy files (Dockerfile, fly.toml, nginx, CI workflow) |
+| `local-dev/` | Python virtualenv (if present) |
 
-- `portfolio-site/` — full portfolio HTML/CSS/JS, media, experimental pages, ClothSim
-- `local-dev/` — Python virtualenv (if present)
-
-Restore by copying files back to the project root and redeploying.
+Not served by GitHub Pages.

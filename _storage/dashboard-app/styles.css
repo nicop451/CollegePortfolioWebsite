@@ -1,0 +1,571 @@
+:root {
+    --bg: #07090f;
+    --ink: #e8edf8;
+    --ink-2: rgba(232, 237, 248, 0.58);
+    --ink-3: rgba(232, 237, 248, 0.32);
+    --accent: #93c5fd;
+    --accent-soft: rgba(147, 197, 253, 0.12);
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.11);
+    --rule: rgba(255, 255, 255, 0.09);
+    --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+    --max-w: 720px;
+    --pad-x: clamp(1.25rem, 4vw, 2rem);
+    color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 50% at 12% 10%, rgba(37, 99, 235, 0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 45% at 88% 80%, rgba(99, 40, 210, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.dashboard {
+    width: min(100%, var(--max-w));
+    margin: 0 auto;
+    padding: clamp(2.5rem, 8vw, 4rem) var(--pad-x) 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    flex: 1;
+}
+
+.dashboard-header {
+    margin-bottom: 0.5rem;
+}
+
+.kicker {
+    margin: 0 0 0.35rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.dashboard-name {
+    margin: 0;
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+}
+
+.dashboard-sub {
+    margin: 0.5rem 0 0;
+    color: var(--ink-2);
+    font-size: 1.05rem;
+}
+
+.panel {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+}
+
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.panel-head h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.badge {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.badge-muted {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--ink-2);
+}
+
+.panel-body {
+    padding: 1.25rem;
+}
+
+.placeholder {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: 0.95rem;
+}
+
+.site-footer {
+    padding: 1.5rem var(--pad-x) 2rem;
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 0.85rem;
+}
+
+.site-footer p { margin: 0; }
+
+/* ============================================================
+   Text link ("books -->" style)
+   ============================================================ */
+
+.dashboard-links {
+    margin-top: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.page-nav {
+    margin-bottom: -0.25rem;
+}
+
+.text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.1rem;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    position: relative;
+    transition: color 180ms var(--ease, ease), transform 180ms var(--ease, ease);
+}
+
+.text-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0.1rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+    transition: right 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.text-link:hover { color: var(--accent); }
+.text-link:hover::after { right: 0; }
+
+.text-link-arrow {
+    display: inline-block;
+    transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.text-link:hover .text-link-arrow {
+    transform: translateX(4px);
+}
+
+.text-link-back:hover .text-link-arrow {
+    transform: translateX(-4px);
+}
+
+.text-link:active {
+    transform: scale(0.97);
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1rem;
+    border-radius: 0.6rem;
+    border: 1px solid transparent;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 140ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                background 180ms ease,
+                border-color 180ms ease,
+                color 180ms ease,
+                box-shadow 220ms ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #0b1220;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0 rgba(147, 197, 253, 0.0);
+}
+
+.btn-primary:hover {
+    background: #bfdbfe;
+    box-shadow: 0 0 24px rgba(147, 197, 253, 0.25);
+}
+
+.btn-ghost {
+    background: var(--glass-bg);
+    color: var(--ink);
+    border-color: var(--glass-border);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.btn-danger {
+    background: transparent;
+    color: rgba(255, 160, 160, 0.85);
+    border-color: rgba(255, 160, 160, 0.25);
+}
+
+.btn-danger:hover {
+    background: rgba(255, 120, 120, 0.1);
+    border-color: rgba(255, 160, 160, 0.5);
+    color: #fecaca;
+}
+
+.btn-small {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.82rem;
+    border-radius: 0.5rem;
+}
+
+.btn:not(:disabled):active {
+    transform: scale(0.96);
+}
+
+.btn.is-loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn.is-loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    color: #0b1220;
+    animation: btn-spin 700ms linear infinite;
+}
+
+@keyframes btn-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   Books — search form
+   ============================================================ */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.book-search {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.book-search textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    background: rgba(0, 0, 0, 0.25);
+    color: var(--ink);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    font-family: var(--sans);
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 88px;
+    transition: border-color 180ms ease, box-shadow 220ms ease;
+}
+
+.book-search textarea::placeholder {
+    color: var(--ink-3);
+}
+
+.book-search textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.book-search-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.search-status {
+    margin: 0.75rem 0 0;
+    min-height: 1.25rem;
+    color: var(--ink-2);
+    font-size: 0.9rem;
+    font-family: var(--mono);
+}
+
+/* ============================================================
+   Books — grid + cards
+   ============================================================ */
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.book-grid:empty { margin-top: 0; }
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.85rem;
+    overflow: hidden;
+    transition: transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                border-color 220ms ease,
+                box-shadow 240ms ease;
+    animation: card-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.book-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(147, 197, 253, 0.35);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes card-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.book-cover {
+    aspect-ratio: 2 / 3;
+    background: linear-gradient(140deg, #1a2230, #0c1018);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.book-cover-empty {
+    font-family: var(--mono);
+    font-size: 2rem;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+}
+
+.book-body {
+    padding: 0.85rem 0.95rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+}
+
+.book-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+}
+
+.book-author {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    font-family: var(--mono);
+}
+
+.book-blurb {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+}
+
+.book-actions {
+    margin-top: auto;
+    padding-top: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.status-select {
+    flex: 1;
+    min-width: 110px;
+    padding: 0.5rem 0.6rem;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--ink);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.5rem;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: border-color 180ms ease;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.status-select:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.is-saved {
+    color: var(--accent) !important;
+}
+
+/* ============================================================
+   Library filter chips
+   ============================================================ */
+
+.library-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.25rem;
+}
+
+.filter-chip {
+    background: transparent;
+    color: var(--ink-2);
+    border: 1px solid var(--glass-border);
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 180ms ease, color 180ms ease,
+                border-color 180ms ease, transform 140ms ease;
+}
+
+.filter-chip:hover {
+    color: var(--ink);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.filter-chip:active {
+    transform: scale(0.95);
+}
+
+.filter-chip.is-active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: rgba(147, 197, 253, 0.35);
+}
+
+/* ============================================================
+   Click particle burst (global)
+   ============================================================ */
+
+.click-particle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    animation: particle-fly 650ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    box-shadow: 0 0 8px var(--accent-glow, rgba(147, 197, 253, 0.45));
+    will-change: transform, opacity;
+}
+
+@keyframes particle-fly {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(
+            calc(-50% + var(--dx, 0px)),
+            calc(-50% + var(--dy, 0px))
+        ) scale(0.2);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .click-particle { display: none; }
+    .book-card { animation: none; }
+    .text-link, .text-link-arrow, .btn, .filter-chip {
+        transition: none !important;
+    }
+}

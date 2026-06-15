@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#13161c" />
+    <title>Studio — Nicholas Pietronuto</title>
+    <meta name="description" content="An experimental portfolio reel by Nicholas Pietronuto." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet"
+    />
+
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* ============================================================
+           Tokens
+           ============================================================ */
+        :root {
+            --bg:           #13161c;
+            --bg-2:         #1a1f28;
+            --bg-3:         #232936;
+            --ink:          #ece6d6;
+            --ink-2:        #8c8676;
+            --ink-3:        #5a564f;
+            --rule:         rgba(236, 230, 214, 0.10);
+            --rule-2:       rgba(236, 230, 214, 0.06);
+
+            --accent:       #9aa3ff;
+            --accent-soft:  rgba(154, 163, 255, 0.16);
+            --accent-glow:  rgba(154, 163, 255, 0.45);
+
+            --display:  'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            --sans:     'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            --mono:     'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+            --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+            --reel-duration: 900ms;
+
+            color-scheme: dark;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow: hidden;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        body {
+            cursor: none;
+            transition: background 800ms var(--ease);
+        }
+        @media (max-width: 760px) {
+            body { cursor: auto; }
+        }
+        a { color: inherit; text-decoration: none; }
+        button { all: unset; cursor: pointer; font-family: inherit; }
+
+        /* ============================================================
+           Atmosphere — grain overlay + accent vignette
+           ============================================================ */
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 90;
+            opacity: 0.22;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='220' height='220' filter='url(%23n)' opacity='0.6'/></svg>");
+        }
+        .vignette {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 80;
+            background:
+                radial-gradient(ellipse at 80% 10%, var(--accent-soft) 0%, transparent 55%),
+                radial-gradient(ellipse at 0% 100%, rgba(0,0,0,0.55) 0%, transparent 60%);
+            transition: background 800ms var(--ease);
+        }
+
+        /* ============================================================
+           Custom spotlight cursor
+           ============================================================ */
+        .cursor-blob {
+            position: fixed;
+            top: 0; left: 0;
+            width: 360px;
+            height: 360px;
+            pointer-events: none;
+            z-index: 95;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at center, var(--accent-glow), transparent 70%);
+            mix-blend-mode: screen;
+            transition: width 280ms var(--ease), height 280ms var(--ease), opacity 320ms var(--ease);
+            opacity: 0.85;
+            filter: blur(18px);
+        }
+        .cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--accent);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 96;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transition: width 200ms var(--ease), height 200ms var(--ease), opacity 200ms var(--ease);
+        }
+        body.cursor-hover .cursor-blob { width: 520px; height: 520px; opacity: 1; }
+        body.cursor-hover .cursor-dot { width: 14px; height: 14px; }
+
+        @media (max-width: 760px) {
+            .cursor-blob, .cursor-dot { display: none; }
+        }
+
+        /* ============================================================
+           Top bar — minimal HUD
+           ============================================================ */
+        .hud {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 70;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 1.4rem clamp(1.25rem, 4vw, 3rem);
+            pointer-events: none;
+        }
+        .hud > * { pointer-events: auto; }
+        .hud-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--display);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+        }
+        .hud-mark {
+            display: inline-grid;
+            place-items: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 8px;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: background 600ms var(--ease);
+        }
+        .hud-counter {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-2);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .hud-counter .now {
+            color: var(--ink);
+            font-size: 0.95rem;
+            transition: color 600ms var(--ease);
+        }
+        .hud-counter .total { color: var(--ink-3); }
+        .hud-back {
+            justify-self: end;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-2);
+            padding: 0.6rem 0.9rem;
+            border: 1px solid var(--rule);
+            border-radius: 999px;
+            transition: color 200ms var(--ease), border-color 200ms var(--ease), background 200ms var(--ease);
+        }
+        .hud-back:hover {
+            color: var(--bg);
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ============================================================
+           Side rail — scene dots
+           ============================================================ */
+        .rail {
+            position: fixed;
+            right: clamp(1rem, 2.4vw, 2rem);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 75;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            align-items: center;
+        }
+        .rail-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--ink-3);
+            opacity: 0.4;
+            transition: all 300ms var(--ease);
+            position: relative;
+        }
+        .rail-dot:hover { opacity: 0.9; transform: scale(1.4); }
+        .rail-dot.is-active {
+            background: var(--accent);
+            opacity: 1;
+            width: 28px;
+            border-radius: 8px;
+            box-shadow: 0 0 14px var(--accent-glow);
+        }
+        @media (max-width: 760px) { .rail { display: none; } }
+
+        /* ============================================================
+           Bottom hint — keyboard / scroll cue
+           ============================================================ */
+        .hint {
+            position: fixed;
+            bottom: 1.4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 70;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.9rem;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-3);
+        }
+        .hint kbd {
+            display: inline-grid;
+            place-items: center;
+            min-width: 1.6rem;
+            height: 1.6rem;
+            padding: 0 0.4rem;
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--ink-2);
+        }
+        .scroll-cue {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .scroll-cue::after {
+            content: '→';
+            color: var(--accent);
+            animation: nudge 1.6s var(--ease) infinite;
+            transition: color 600ms var(--ease);
+        }
+        @keyframes nudge {
+            0%, 100% { transform: translateX(0); opacity: 0.4; }
+            50%      { transform: translateX(6px); opacity: 1; }
+        }
+
+        /* ============================================================
+           Stage / horizontal reel
+           ============================================================ */
+        .stage {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .reel {
+            display: flex;
+            height: 100%;
+            transform: translateX(0);
+            transition: transform var(--reel-duration) var(--ease-out);
+            will-change: transform;
+        }
+        .scene {
+            flex: 0 0 100vw;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            position: relative;
+            padding: clamp(4rem, 9vw, 6.5rem) clamp(1.5rem, 5vw, 5rem) clamp(4rem, 7vw, 5rem);
+        }
+        .scene-content {
+            width: 100%;
+            max-width: 1400px;
+            height: 100%;
+            display: grid;
+            position: relative;
+        }
+
+        /* Animated reveal applied when scene is active */
+        .scene .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition:
+                opacity 900ms var(--ease-out),
+                transform 1100ms var(--ease-out);
+            transition-delay: var(--delay, 0ms);
+        }
+        .scene.is-active .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .scene .reveal-fade {
+            opacity: 0;
+            transition: opacity 1200ms var(--ease-out);
+            transition-delay: var(--delay, 0ms);
+        }
+        .scene.is-active .reveal-fade { opacity: 1; }
+
+        /* ============================================================
+           Scene head — number, kicker, title, desc
+           ============================================================ */
+        .scene-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.4rem;
+            font-family: var(--mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-2);
+        }
+        .scene-no {
+            color: var(--accent);
+            font-weight: 500;
+            transition: color 600ms var(--ease);
+        }
+        .scene-tag {
+            position: relative;
+            padding-left: 1.1rem;
+        }
+        .scene-tag::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%;
+            width: 0.6rem; height: 1px;
+            background: var(--ink-3);
+        }
+        .scene-title {
+            font-family: var(--display);
+            font-weight: 700;
+            font-size: clamp(2.6rem, 7vw, 5.6rem);
+            line-height: 0.96;
+            letter-spacing: -0.045em;
+            margin: 0 0 1.2rem;
+            color: var(--ink);
+        }
+        .scene-title em {
+            font-style: italic;
+            color: var(--accent);
+            font-weight: 400;
+            transition: color 600ms var(--ease);
+        }
+        .scene-desc {
+            font-size: clamp(1rem, 1.3vw, 1.08rem);
+            line-height: 1.7;
+            color: var(--ink-2);
+            max-width: 52ch;
+            margin: 0;
+        }
+        .scene-desc em {
+            font-style: normal;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           Intro scene
+           ============================================================ */
+        .scene-intro .scene-content {
+            grid-template-columns: 1fr;
+            place-items: center;
+            text-align: center;
+        }
+        .intro-kicker {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 0 0 2rem;
+            transition: color 600ms var(--ease);
+        }
+        .intro-name {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: clamp(3.5rem, 11vw, 9rem);
+            line-height: 0.92;
+            letter-spacing: -0.05em;
+            margin: 0;
+            color: var(--ink);
+        }
+        .intro-name em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--accent);
+            transition: color 600ms var(--ease);
+        }
+        .intro-tagline {
+            margin: 1.8rem auto 2.6rem;
+            max-width: 56ch;
+            font-size: clamp(1.05rem, 1.4vw, 1.18rem);
+            color: var(--ink-2);
+            line-height: 1.6;
+        }
+        .intro-actions {
+            display: inline-flex;
+            gap: 1rem;
+        }
+        .intro-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.95rem 1.5rem;
+            border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: 1px solid var(--rule);
+            color: var(--ink);
+            transition: all 240ms var(--ease);
+        }
+        .intro-btn.primary {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+            box-shadow: 0 6px 28px var(--accent-glow);
+        }
+        .intro-btn.primary:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+        .intro-btn.ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .intro-orb {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .intro-orb svg {
+            width: min(80vmin, 700px);
+            height: min(80vmin, 700px);
+            color: var(--accent);
+            opacity: 0.5;
+            transition: color 600ms var(--ease);
+            animation: orb-rotate 60s linear infinite;
+        }
+        @keyframes orb-rotate { to { transform: rotate(360deg); } }
+
+        /* ============================================================
+           Project scene base — two-column with media
+           ============================================================ */
+        .scene-project .scene-content {
+            grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.4fr);
+            gap: clamp(2rem, 5vw, 5rem);
+            align-items: center;
+        }
+        .scene-head {
+            min-width: 0;
+        }
+        .scene-media {
+            min-width: 0;
+            display: grid;
+            gap: clamp(0.6rem, 1.2vw, 1rem);
+            position: relative;
+        }
+        .scene-media .m {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 1px solid var(--rule);
+            background: var(--bg-2);
+            box-shadow:
+                0 1px 2px rgba(0,0,0,0.4),
+                0 30px 60px rgba(0,0,0,0.45);
+        }
+
+        /* Stack mobile */
+        @media (max-width: 980px) {
+            .scene-project .scene-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                align-content: start;
+                padding-top: 2rem;
+            }
+            .scene-head { order: 0; }
+            .scene-media { order: 1; max-height: 56vh; }
+        }
+
+        /* ---- Layout: twin (two equal items) ---- */
+        .layout-twin .scene-media {
+            grid-template-columns: 1fr 1fr;
+            aspect-ratio: 2 / 1;
+            max-height: 70vh;
+        }
+        .layout-twin .scene-media .m {
+            aspect-ratio: 1 / 1;
+        }
+
+        /* ---- Layout: hero + stack (one big, two stacked) ---- */
+        .layout-hero-stack .scene-media {
+            grid-template-columns: 1.4fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-auto-flow: row;
+            max-height: 72vh;
+            aspect-ratio: 1.6 / 1;
+        }
+        .layout-hero-stack .scene-media .m-hero {
+            grid-row: 1 / span 2;
+        }
+
+        /* ---- Layout: triptych (three equal) ---- */
+        .layout-triptych .scene-media {
+            grid-template-columns: 1fr 1.05fr 0.95fr;
+            max-height: 70vh;
+            aspect-ratio: 2.2 / 1;
+        }
+        .layout-triptych .scene-media .m-mid { transform: translateY(-12px); }
+        .layout-triptych .scene-media .m-end { transform: translateY(14px); }
+
+        /* ---- Layout: equation (math + 2 images) ---- */
+        .layout-equation .scene-media {
+            grid-template-rows: auto 1fr;
+            gap: 1rem;
+            max-height: 75vh;
+        }
+        .layout-equation .equation-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent);
+            border: 1px solid var(--rule);
+            border-radius: 14px;
+            padding: 1.4rem clamp(1rem, 2.5vw, 1.8rem);
+            color: var(--ink);
+            font-size: clamp(0.85rem, 1vw, 1.05rem);
+            overflow-x: auto;
+            backdrop-filter: blur(2px);
+        }
+        .layout-equation .equation-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            min-height: 0;
+        }
+        .layout-equation .equation-row .m {
+            aspect-ratio: 1.4 / 1;
+        }
+
+        /* ---- Layout: single (one big media) ---- */
+        .layout-single .scene-media {
+            max-height: 72vh;
+        }
+        .layout-single .scene-media .m {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+
+        /* ---- Layout: magazine (two columns w/ tilt) ---- */
+        .layout-magazine .scene-media {
+            grid-template-columns: 1fr 1fr;
+            max-height: 72vh;
+            aspect-ratio: 1.7 / 1;
+            align-items: center;
+        }
+        .layout-magazine .scene-media .m-a { transform: rotate(-1.8deg) translateY(-6px); }
+        .layout-magazine .scene-media .m-b { transform: rotate(1.6deg) translateY(8px); }
+
+        /* ---- Layout: trio-grid (1 big + 2 small) ---- */
+        .layout-trio-grid .scene-media {
+            grid-template-columns: 1.4fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            max-height: 76vh;
+            aspect-ratio: 1.55 / 1;
+        }
+        .layout-trio-grid .scene-media .m-hero {
+            grid-row: 1 / span 2;
+        }
+
+        /* ---- Layout: video-with-code (Mandelbrot) ---- */
+        .layout-video-code .scene-media {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            max-height: 76vh;
+            aspect-ratio: 1.7 / 1;
+            position: relative;
+        }
+        .layout-video-code .scene-media .m-bg {
+            grid-row: 1; grid-column: 1;
+        }
+        .layout-video-code .scene-media .m-overlay {
+            position: absolute;
+            right: -2%;
+            bottom: -6%;
+            width: 46%;
+            aspect-ratio: 1.35 / 1;
+            transform: rotate(-2deg);
+            box-shadow:
+                0 1px 2px rgba(0,0,0,0.5),
+                0 40px 80px rgba(0,0,0,0.55);
+            border: 1px solid var(--rule);
+        }
+
+        /* ============================================================
+           Contact / outro scene
+           ============================================================ */
+        .scene-outro .scene-content {
+            grid-template-columns: 1fr;
+            place-items: center;
+            text-align: center;
+        }
+        .outro-title {
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: clamp(2.8rem, 8vw, 6.5rem);
+            line-height: 0.96;
+            letter-spacing: -0.045em;
+            margin: 0 0 2.2rem;
+        }
+        .outro-title em {
+            font-style: italic;
+            color: var(--accent);
+            font-weight: 400;
+            transition: color 600ms var(--ease);
+        }
+        .outro-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .outro-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--rule);
+            border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink);
+            transition: all 240ms var(--ease);
+        }
+        .outro-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px var(--accent-glow);
+        }
+        .outro-link .dot {
+            display: inline-block;
+            width: 6px; height: 6px;
+            border-radius: 999px;
+            background: var(--accent);
+            transition: background 600ms var(--ease);
+        }
+        .outro-back {
+            margin-top: 2.6rem;
+            font-family: var(--mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            transition: color 200ms var(--ease);
+        }
+        .outro-back:hover { color: var(--accent); }
+
+        /* ============================================================
+           Reduced motion
+           ============================================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 200ms !important;
+            }
+            .reel { transition-duration: 0ms !important; }
+        }
+    </style>
+</head>
+
+<body data-scene="0">
+
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="cursor-blob" aria-hidden="true"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+
+    <!-- ============ HUD ============ -->
+    <header class="hud" aria-hidden="true">
+        <a class="hud-brand" href="index.html" data-hover>
+            <span class="hud-mark">NP</span>
+            <span class="hud-name">Nicholas Pietronuto</span>
+        </a>
+        <div class="hud-counter">
+            <span class="now" id="counterNow">00</span>
+            <span>/</span>
+            <span class="total" id="counterTotal">10</span>
+        </div>
+        <a class="hud-back" href="index.html" data-hover>← Main site</a>
+    </header>
+
+    <!-- ============ SIDE RAIL ============ -->
+    <nav class="rail" id="rail" aria-label="Scene navigation"></nav>
+
+    <!-- ============ STAGE ============ -->
+    <main class="stage">
+        <div class="reel" id="reel">
+
+            <!-- ===== Scene 0: INTRO ===== -->
+            <section class="scene scene-intro is-active"
+                     data-accent="#9aa3ff"
+                     data-tag="Studio reel · 2026"
+                     data-name="Welcome">
+                <div class="intro-orb" aria-hidden="true">
+                    <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.4">
+                        <circle cx="100" cy="100" r="40" />
+                        <circle cx="100" cy="100" r="58" />
+                        <circle cx="100" cy="100" r="76" />
+                        <circle cx="100" cy="100" r="94" />
+                        <line x1="100" y1="0" x2="100" y2="200" />
+                        <line x1="0" y1="100" x2="200" y2="100" />
+                        <line x1="29" y1="29" x2="171" y2="171" />
+                        <line x1="171" y1="29" x2="29" y2="171" />
+                    </svg>
+                </div>
+                <div class="scene-content">
+                    <p class="intro-kicker reveal" style="--delay: 0ms;">Studio Reel · Volume 01</p>
+                    <h1 class="intro-name reveal" style="--delay: 100ms;">Nicholas <em>Pietronuto.</em></h1>
+                    <p class="intro-tagline reveal" style="--delay: 220ms;">
+                        A sequenced look at things I've built — in code, steel, and pixels.
+                        Use the arrow keys, scroll wheel, or rail to move through.
+                    </p>
+                    <div class="intro-actions reveal" style="--delay: 360ms;">
+                        <button class="intro-btn primary" data-go-next data-hover>Begin →</button>
+                        <a class="intro-btn ghost" href="index.html" data-hover>Main site</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 1: HORIZONNET ===== -->
+            <section class="scene scene-project layout-twin"
+                     data-accent="#5ce0ff"
+                     data-tag="Computer vision · 2026"
+                     data-name="HorizonNet">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">01</span>
+                            <span class="scene-tag">Computer vision</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Horizon<em>Net.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            A neural net trained to track the horizon line in real time —
+                            two views captured simultaneously, fed into the same model.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <video class="m" data-src="Assets/Images/HorizonNetLeft.mp4"
+                               muted loop playsinline preload="none" aria-label="HorizonNet — left view"></video>
+                        <video class="m" data-src="Assets/Images/HorizonNetRight.mp4"
+                               muted loop playsinline preload="none" aria-label="HorizonNet — right view"></video>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 2: GO-KART ===== -->
+            <section class="scene scene-project layout-hero-stack"
+                     data-accent="#ff8c42"
+                     data-tag="Mechanical · 2024"
+                     data-name="Go-Kart">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">02</span>
+                            <span class="scene-tag">Mechanical · Fabrication</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Petrol go&#8209;<em>kart.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            Three&#8209;wheeled go&#8209;kart, designed in CAD then built in
+                            a garage — sourcing parts on a budget, cutting steel by hand,
+                            and welding the chassis from scratch.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <video class="m m-hero" data-src="Assets/Images/RidingTrike.mp4"
+                               muted loop playsinline preload="none"></video>
+                        <img class="m" src="Assets/Images/Blendertrike.png"
+                             alt="3D CAD model of the trike designed in Blender" loading="lazy" />
+                        <img class="m" src="Assets/Images/Welding.jpg"
+                             alt="Welding the trike chassis" loading="lazy" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 3: ROBOTICS ===== -->
+            <section class="scene scene-project layout-twin"
+                     data-accent="#7cfaa9"
+                     data-tag="Robotics · 2023"
+                     data-name="FIRST Robotics">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">03</span>
+                            <span class="scene-tag">FIRST Robotics</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Shooter <em>arm.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            Designed the entire intake&#8209;and&#8209;shooter arm for our
+                            competition robot in Onshape, then CNC&#8209;cut from polycarbonate.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <video class="m" data-src="Assets/Images/RobotShooter.mp4"
+                               muted loop playsinline preload="none"></video>
+                        <video class="m" data-src="Assets/Images/EdittedShot.mp4"
+                               muted loop playsinline preload="none"></video>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 4: PROSTHETIC HAND ===== -->
+            <section class="scene scene-project layout-triptych"
+                     data-accent="#c4a3ff"
+                     data-tag="3D printing · 2024"
+                     data-name="Prosthetic Hand">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">04</span>
+                            <span class="scene-tag">Compliant mechanism</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Soft <em>hand.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            A snap&#8209;together prosthetic hand actuated by tensioned strings
+                            and rubber bands — compliant enough to wrap naturally around
+                            irregular objects.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <img class="m m-start" src="Assets/Images/HandHoldingCandle.png"
+                             alt="3D-printed prosthetic hand holding a candle" loading="lazy" />
+                        <img class="m m-mid" src="Assets/Images/HandInFirst.png"
+                             alt="Prosthetic hand making a fist" loading="lazy" />
+                        <img class="m m-end" src="Assets/Images/HandCAD.png"
+                             alt="CAD model of the prosthetic hand" loading="lazy" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 5: PATH TRACER ===== -->
+            <section class="scene scene-project layout-equation"
+                     data-accent="#ff6b9d"
+                     data-tag="Graphics · GPU"
+                     data-name="Path Tracer">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">05</span>
+                            <span class="scene-tag">Physically&#8209;based rendering</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Path <em>tracer.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            Millions of rays per frame, evaluating reflection, refraction, and
+                            absorption with the Fresnel equations — all on the GPU. Below: the
+                            rendering equation it implements, an output frame, and a snippet
+                            of the kernel.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <div class="equation-card">
+                            \[
+                            L_o(\mathbf{x}, \omega_o) = L_e(\mathbf{x}, \omega_o) +
+                            \int_{\Omega} f_r(\mathbf{x}, \omega_i, \omega_o)\,
+                            L_i(\mathbf{x}, \omega_i)\,
+                            \left|\cos(\theta_i)\right|\, d\omega_i
+                            \]
+                        </div>
+                        <div class="equation-row">
+                            <img class="m" src="Assets/Images/PathtracerExample.png"
+                                 alt="Sample render produced by the path tracer" loading="lazy" />
+                            <img class="m" src="Assets/Images/PathtracerCode.png"
+                                 alt="Snippet of the path tracer source code" loading="lazy" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 6: DEAL FINDER ===== -->
+            <section class="scene scene-project layout-single"
+                     data-accent="#bdf94b"
+                     data-tag="AI · scraping"
+                     data-name="Deal Finder">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">06</span>
+                            <span class="scene-tag">LLM tooling</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Deal <em>finder.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            Scrapes marketplace listings and feeds them through an LLM that
+                            estimates each item's likely value from its title — then surfaces
+                            anything trading well below that estimate.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <video class="m" data-src="Assets/Images/DealFinder.mp4"
+                               muted loop playsinline preload="none"></video>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 7: MANDELBROT ===== -->
+            <section class="scene scene-project layout-video-code"
+                     data-accent="#a980ff"
+                     data-tag="Fractals · GPU"
+                     data-name="Mandelbrot">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">07</span>
+                            <span class="scene-tag">Mandelbrot plotter</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Infinite <em>zoom.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            $z_{n+1} = z_n^2 + c$ — a deceptively simple iteration that never
+                            repeats no matter how far you zoom. Runs in parallel on the GPU
+                            for high&#8209;framerate exploration.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <video class="m m-bg" data-src="Assets/Images/MandelbrotZoomVideo.mp4"
+                               muted loop playsinline preload="none"></video>
+                        <img class="m m-overlay" src="Assets/Images/MandelbrotCode.png"
+                             alt="Mandelbrot kernel source code" loading="lazy" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 8: FUTURE FEST ===== -->
+            <section class="scene scene-project layout-magazine"
+                     data-accent="#ff9b7a"
+                     data-tag="3D · Freelance"
+                     data-name="Future Fest">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">08</span>
+                            <span class="scene-tag">3D modelling · paid</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Future <em>Fest.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            Paid modelling work for an NFT video game — character accessories,
+                            primarily hats. Below: the in&#8209;game home screen and store
+                            featuring my designs.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <img class="m m-a" src="Assets/Images/FutureFestHomeScreen.png"
+                             alt="Future Fest home screen" loading="lazy" />
+                        <img class="m m-b" src="Assets/Images/FutureFestStore.png"
+                             alt="Future Fest in-game store" loading="lazy" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 9: PHYSICS SIMS ===== -->
+            <section class="scene scene-project layout-trio-grid"
+                     data-accent="#ffc857"
+                     data-tag="Physics · GPU"
+                     data-name="Physics Sims">
+                <div class="scene-content">
+                    <header class="scene-head">
+                        <div class="scene-meta reveal" style="--delay: 0ms;">
+                            <span class="scene-no">09</span>
+                            <span class="scene-tag">Physics simulations</span>
+                        </div>
+                        <h2 class="scene-title reveal" style="--delay: 100ms;">Tiny <em>worlds.</em></h2>
+                        <p class="scene-desc reveal" style="--delay: 220ms;">
+                            AP Physics concepts turned into interactive simulations:
+                            a cloth solver, an N&#8209;body gravity sim, and a Verlet
+                            particle system with sparse&#8209;grid collision optimization.
+                        </p>
+                    </header>
+                    <div class="scene-media reveal-fade" style="--delay: 340ms;">
+                        <video class="m m-hero" data-src="Assets/Images/VerletSim.mp4"
+                               muted loop playsinline preload="none"></video>
+                        <video class="m" data-src="Assets/Images/ClothSimVid.mp4"
+                               muted loop playsinline preload="none"></video>
+                        <video class="m" data-src="Assets/Images/GalaxyVid.mp4"
+                               muted loop playsinline preload="none"></video>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Scene 10: OUTRO / CONTACT ===== -->
+            <section class="scene scene-outro"
+                     data-accent="#7cd7ff"
+                     data-tag="Get in touch"
+                     data-name="Contact">
+                <div class="scene-content">
+                    <p class="scene-meta reveal" style="--delay: 0ms;">
+                        <span class="scene-no">10</span>
+                        <span class="scene-tag">End of reel</span>
+                    </p>
+                    <h2 class="outro-title reveal" style="--delay: 100ms;">Let's build <em>something.</em></h2>
+                    <ul class="outro-links reveal" style="--delay: 240ms;">
+                        <li><a class="outro-link" href="mailto:your.email@example.com" data-hover>
+                            <span class="dot"></span> Email
+                        </a></li>
+                        <li><a class="outro-link" href="https://github.com/nicop451" target="_blank" rel="noopener" data-hover>
+                            <span class="dot"></span> GitHub
+                        </a></li>
+                        <li><a class="outro-link" href="https://www.linkedin.com/in/nicholas-pietronuto/" target="_blank" rel="noopener" data-hover>
+                            <span class="dot"></span> LinkedIn
+                        </a></li>
+                    </ul>
+                    <button class="outro-back reveal" style="--delay: 360ms;" data-go-first data-hover>↺ Replay reel</button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ============ HINT ============ -->
+    <div class="hint" aria-hidden="true">
+        <span><kbd>←</kbd><kbd>→</kbd></span>
+        <span class="scroll-cue">scroll</span>
+    </div>
+
+    <script>
+        (function () {
+            const reel = document.getElementById('reel');
+            const scenes = Array.from(reel.querySelectorAll('.scene'));
+            const total = scenes.length;
+            const counterNow = document.getElementById('counterNow');
+            const counterTotal = document.getElementById('counterTotal');
+            const rail = document.getElementById('rail');
+            const root = document.documentElement;
+
+            counterTotal.textContent = String(total - 1).padStart(2, '0');
+
+            scenes.forEach((s, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'rail-dot';
+                dot.setAttribute('aria-label', `Go to scene ${i}: ${s.dataset.name || ''}`);
+                dot.dataset.target = String(i);
+                dot.addEventListener('click', () => goTo(i));
+                dot.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                dot.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+                rail.appendChild(dot);
+            });
+            const dots = Array.from(rail.children);
+
+            let current = 0;
+            let isAnimating = false;
+
+            function applyAccent(color) {
+                root.style.setProperty('--accent', color);
+                root.style.setProperty('--accent-soft', hexToRgba(color, 0.16));
+                root.style.setProperty('--accent-glow', hexToRgba(color, 0.45));
+            }
+            function hexToRgba(hex, a) {
+                const h = hex.replace('#', '');
+                const n = parseInt(h.length === 3
+                    ? h.split('').map(c => c + c).join('')
+                    : h, 16);
+                const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+                return `rgba(${r}, ${g}, ${b}, ${a})`;
+            }
+
+            function goTo(idx, instant) {
+                idx = Math.max(0, Math.min(total - 1, idx));
+                if (idx === current && !instant) return;
+                isAnimating = true;
+                current = idx;
+
+                reel.style.transform = `translateX(-${idx * 100}vw)`;
+
+                scenes.forEach((s, i) => {
+                    s.classList.toggle('is-active', i === idx);
+                });
+                dots.forEach((d, i) => {
+                    d.classList.toggle('is-active', i === idx);
+                });
+
+                const accent = scenes[idx].dataset.accent || '#9aa3ff';
+                applyAccent(accent);
+
+                counterNow.textContent = String(idx).padStart(2, '0');
+                document.body.dataset.scene = String(idx);
+
+                handleVideos(idx);
+
+                window.setTimeout(() => { isAnimating = false; }, 1000);
+            }
+
+            function handleVideos(activeIdx) {
+                scenes.forEach((scene, i) => {
+                    const videos = scene.querySelectorAll('video');
+                    videos.forEach(v => {
+                        if (i === activeIdx) {
+                            if (!v.src && v.dataset.src) {
+                                v.src = v.dataset.src;
+                                v.preload = 'auto';
+                            }
+                            const p = v.play();
+                            if (p && p.catch) p.catch(() => {});
+                        } else {
+                            v.pause();
+                        }
+                    });
+                });
+
+                // Pre-warm next + previous scene videos
+                [activeIdx + 1, activeIdx - 1].forEach(j => {
+                    if (j < 0 || j >= total) return;
+                    scenes[j].querySelectorAll('video').forEach(v => {
+                        if (!v.src && v.dataset.src) {
+                            v.src = v.dataset.src;
+                            v.preload = 'auto';
+                        }
+                    });
+                });
+            }
+
+            // ---- Wheel pagination (debounced)
+            let wheelLock = false;
+            let wheelAccum = 0;
+            window.addEventListener('wheel', (e) => {
+                if (wheelLock) { e.preventDefault(); return; }
+                e.preventDefault();
+                wheelAccum += Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+                if (Math.abs(wheelAccum) > 40) {
+                    const dir = wheelAccum > 0 ? 1 : -1;
+                    wheelAccum = 0;
+                    wheelLock = true;
+                    goTo(current + dir);
+                    setTimeout(() => { wheelLock = false; }, 700);
+                }
+            }, { passive: false });
+
+            // ---- Keyboard
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    goTo(current + 1);
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    goTo(current - 1);
+                } else if (e.key === 'Home') {
+                    goTo(0);
+                } else if (e.key === 'End') {
+                    goTo(total - 1);
+                }
+            });
+
+            // ---- Touch swipe (basic)
+            let touchStartX = null;
+            window.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+            }, { passive: true });
+            window.addEventListener('touchend', (e) => {
+                if (touchStartX == null) return;
+                const dx = (e.changedTouches[0].clientX) - touchStartX;
+                if (Math.abs(dx) > 60) goTo(current + (dx < 0 ? 1 : -1));
+                touchStartX = null;
+            }, { passive: true });
+
+            // ---- "Begin" / "Replay" buttons
+            document.querySelectorAll('[data-go-next]').forEach(b =>
+                b.addEventListener('click', () => goTo(current + 1)));
+            document.querySelectorAll('[data-go-first]').forEach(b =>
+                b.addEventListener('click', () => goTo(0)));
+
+            // ---- Custom cursor
+            const blob = document.querySelector('.cursor-blob');
+            const dot = document.querySelector('.cursor-dot');
+            let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+            let bx = cx, by = cy;
+            window.addEventListener('mousemove', (e) => {
+                cx = e.clientX; cy = e.clientY;
+                dot.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+            });
+            function animateBlob() {
+                bx += (cx - bx) * 0.12;
+                by += (cy - by) * 0.12;
+                blob.style.transform = `translate(${bx}px, ${by}px) translate(-50%, -50%)`;
+                requestAnimationFrame(animateBlob);
+            }
+            animateBlob();
+
+            // Hover detection for cursor scale
+            document.querySelectorAll('[data-hover]').forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+
+            // ---- Initial state
+            goTo(0, true);
+        })();
+    </script>
+</body>
+</html>

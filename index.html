@@ -5,61 +5,447 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#07090f" />
-    <title>Nico — Dashboard</title>
-    <meta name="description" content="Personal app dashboard for Nico." />
+    <title>Nicholas Pietronuto — Engineer & Maker</title>
+    <meta name="description" content="Portfolio of Nicholas Pietronuto — engineering, simulation, fabrication, and creative software projects." />
 
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/icons/icon.svg" />
-
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet"
     />
+
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- MathJax for the rendering equation in the Pathtracer card -->
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
+
 <body>
-    <main class="dashboard">
-        <header class="dashboard-header">
-            <p class="kicker">Dashboard</p>
-            <h1 class="dashboard-name">Nico</h1>
-            <p class="dashboard-sub">Your app home base</p>
-        </header>
-
-        <section class="panel" aria-labelledby="cotd-heading">
-            <div class="panel-head">
-                <h2 id="cotd-heading">Company of the Day</h2>
-                <span class="badge">Daily</span>
-            </div>
-            <div class="panel-body" id="company-of-the-day">
-                <p class="placeholder">No company picked yet. This section will show today&apos;s featured company.</p>
-            </div>
-        </section>
-
-        <section class="panel" aria-labelledby="opps-heading">
-            <div class="panel-head">
-                <h2 id="opps-heading">Agent Opportunities Scraped</h2>
-                <span class="badge badge-muted">Scraper</span>
-            </div>
-            <div class="panel-body" id="agent-opportunities">
-                <p class="placeholder">No opportunities loaded yet. Scraped agent roles will appear here.</p>
-            </div>
-        </section>
-
-        <nav class="dashboard-links" aria-label="Apps">
-            <a href="/books.html" class="text-link">
-                <span>books</span>
-                <span class="text-link-arrow" aria-hidden="true">--&gt;</span>
+    <!-- ============ TOP NAV ============ -->
+    <header class="site-header">
+        <div class="container nav-row">
+            <a href="#top" class="brand">
+                <span class="brand-mark">NP</span>
+                <span class="brand-name">Nicholas Pietronuto</span>
             </a>
-        </nav>
+            <nav class="primary-nav" aria-label="Primary">
+                <a href="#work">My Work</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section id="top" class="hero">
+        <!-- Subtle dot grid — clean, professional background texture -->
+        <svg
+            class="hero-topo"
+            viewBox="0 0 560 560"
+            preserveAspectRatio="xMaxYMin slice"
+            aria-hidden="true"
+            focusable="false"
+        >
+            <defs>
+                <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+                    <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
+                </pattern>
+            </defs>
+            <rect width="560" height="560" fill="url(#dots)" />
+        </svg>
+
+        <div class="container hero-grid">
+            <div class="hero-text reveal">
+                <p class="kicker">Hello — I'm</p>
+                <h1 class="hero-name">Nicholas<br /><span class="hero-name-last">Pietronuto.</span></h1>
+                <div class="hero-actions">
+                    <a href="#work" class="hero-cta-primary">
+                        <span>See my work</span>
+                        <span class="cta-arrow" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="9" y1="3" x2="9" y2="14" />
+                                <polyline points="4,10 9,15 14,10" />
+                            </svg>
+                        </span>
+                    </a>
+                    <a href="#contact" class="hero-cta-ghost">
+                        Get in touch
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="2" y1="7" x2="11" y2="7" />
+                            <polyline points="7,3 11,7 7,11" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <figure class="hero-photo reveal">
+                <img
+                    src="Assets/Images/Headshot.jpg"
+                    alt="Portrait of Nicholas Pietronuto"
+                    width="444"
+                    height="555"
+                    loading="eager"
+                    fetchpriority="high"
+                />
+            </figure>
+        </div>
+    </section>
+
+    <!-- ============ WORK ============ -->
+    <main id="work" class="work">
+        <div class="container">
+            <header class="section-head reveal">
+                <p class="section-eyebrow">Selected Work</p>
+                <h2 class="section-title">Projects</h2>
+            </header>
+
+            <!-- ============ HORIZONNET ============ -->
+            <article class="project reveal" id="horizon-net">
+                <header class="project-head">
+                    <h3 class="project-title">HorizonNet</h3>
+                </header>
+                <p class="project-description">
+                    A robotic system that takes a unique approach to recon missions. HorizonNet places small devices I call "nodes" througout the environment. This spreads sensing throuhgout the physical space and maintains persistent awareness as situations evolve.
+                </p>
+                <div class="project-media">
+                    <video
+                        class="media"
+                        style="--ar: 1;"
+                        data-src="Assets/Images/HorizonNetLeft.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="HorizonNet — left view"
+                    ></video>
+                    <video
+                        class="media"
+                        style="--ar: 1;"
+                        data-src="Assets/Images/HorizonNetRight.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="HorizonNet — right view"
+                    ></video>
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 01 — GO-KART ============ -->
+            <article class="project reveal" id="go-kart">
+                <header class="project-head">
+                    <h3 class="project-title">Petrol&#8209;Powered Go&#8209;Kart</h3>
+                </header>
+                <p class="project-description">
+                    Built a three&#8209;wheeled go&#8209;kart from scratch — designing it on
+                    my computer, sourcing affordable parts with money earned from work,
+                    cutting steel by hand, and welding the chassis together.
+                </p>
+                <div class="project-media has-stack">
+                    <video
+                        class="media"
+                        style="--ar: 0.5624;"
+                        data-src="Assets/Images/RidingTrike.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Video of riding the go-kart"
+                    ></video>
+                    <img
+                        class="media"
+                        style="--ar: 1.0170;"
+                        src="Assets/Images/Blendertrike.png"
+                        alt="3D CAD model of the trike designed in Blender"
+                        loading="lazy"
+                    />
+                    <div class="media-stack" style="--ar: 0.4262;">
+                        <img
+                            class="media"
+                            style="--ar: 0.7486;"
+                            src="Assets/Images/TrikeEngineBack.png"
+                            alt="Rear view of the trike's engine and drivetrain"
+                            loading="lazy"
+                        />
+                        <img
+                            class="media"
+                            style="--ar: 0.9894;"
+                            src="Assets/Images/Welding.jpg"
+                            alt="Welding the trike chassis"
+                            loading="lazy"
+                        />
+                    </div>
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 02 — FIRST ROBOTICS ============ -->
+            <article class="project reveal" id="robotics">
+                <header class="project-head">
+                    <h3 class="project-title">FIRST Robotics — Shooter Arm</h3>
+                </header>
+                <p class="project-description">
+                    Designed the entire intake&#8209;and&#8209;shooter arm at the front of our
+                    competition robot using Onshape. The team then CNC&#8209;cut the arm
+                    plates from polycarbonate based on my design.
+                </p>
+                <div class="project-media">
+                    <video
+                        class="media"
+                        style="--ar: 1.4539;"
+                        data-src="Assets/Images/RobotShooter.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Robot shooter arm demonstration"
+                    ></video>
+                    <video
+                        class="media"
+                        style="--ar: 0.6875;"
+                        data-src="Assets/Images/EdittedShot.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Edited footage of the shooter in action"
+                    ></video>
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 03 — PROSTHETIC HAND ============ -->
+            <article class="project reveal" id="prosthetic-hand">
+                <header class="project-head">
+                    <h3 class="project-title">3D&#8209;Printable Prosthetic Hand</h3>
+                </header>
+                <p class="project-description">
+                    Designed a snap&#8209;together prosthetic hand actuated by tensioned
+                    strings and rubber bands. The compliant mechanism conforms naturally
+                    to complex object surfaces, making it more practical than a rigid grip.
+                </p>
+                <div class="project-media">
+                    <img
+                        class="media"
+                        style="--ar: 0.7489;"
+                        src="Assets/Images/HandHoldingCandle.png"
+                        alt="3D-printed prosthetic hand holding a candle"
+                        loading="lazy"
+                    />
+                    <img
+                        class="media"
+                        style="--ar: 0.7500;"
+                        src="Assets/Images/HandInFirst.png"
+                        alt="Prosthetic hand making a fist"
+                        loading="lazy"
+                    />
+                    <img
+                        class="media"
+                        style="--ar: 0.8446;"
+                        src="Assets/Images/HandCAD.png"
+                        alt="CAD model of the prosthetic hand"
+                        loading="lazy"
+                    />
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 04 — RAYTRACER ============ -->
+            <article class="project reveal" id="raytracer">
+                <header class="project-head">
+                    <h3 class="project-title">GPU&#8209;Accelerated Path Tracer</h3>
+                </header>
+                <p class="project-description">
+                    A path tracer that simulates millions of light rays — their reflections,
+                    refractions, and color absorption — using physically based concepts like
+                    the Fresnel reflection equations. Below is the rendering equation it
+                    implements, alongside an output frame and a snippet of the kernel.
+                </p>
+                <div class="callout">
+                    \[
+                    L_o(\mathbf{x}, \omega_o) = L_e(\mathbf{x}, \omega_o) +
+                    \int_{\Omega} f_r(\mathbf{x}, \omega_i, \omega_o)\,
+                    L_i(\mathbf{x}, \omega_i)\,
+                    \left|\cos(\theta_i)\right|\, d\omega_i
+                    \]
+                </div>
+                <div class="project-media">
+                    <img
+                        class="media"
+                        style="--ar: 1.4138;"
+                        src="Assets/Images/PathtracerExample.png"
+                        alt="Sample render produced by the path tracer"
+                        loading="lazy"
+                    />
+                    <img
+                        class="media"
+                        style="--ar: 1.4138;"
+                        src="Assets/Images/PathtracerCode.png"
+                        alt="Snippet of the path tracer source code"
+                        loading="lazy"
+                    />
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 05 — DEAL FINDER ============ -->
+            <article class="project reveal" id="deal-finder">
+                <header class="project-head">
+                    <h3 class="project-title">Deal Finder AI</h3>
+                </header>
+                <p class="project-description">
+                    Combines web scraping with an LLM's ability to estimate the value of a
+                    product from the nuanced characteristics of its listing title. Using
+                    that AI&#8209;estimated price, the program surfaces listings priced well
+                    below their estimated value — useful for finding products that can be
+                    flipped for a profit.
+                </p>
+                <div class="project-media">
+                    <video
+                        class="media"
+                        style="--ar: 1.7037;"
+                        data-src="Assets/Images/DealFinder.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Deal Finder AI in action"
+                    ></video>
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 06 — MANDELBROT ============ -->
+            <article class="project reveal" id="mandelbrot">
+                <header class="project-head">
+                    <h3 class="project-title">Mandelbrot Fractal Plotter</h3>
+                </header>
+                <p class="project-description">
+                    Discovered by Benoit Mandelbrot, this fractal — defined by the deceptively
+                    simple iteration $z_{n+1} = z_n^2 + c$ — never repeats no matter how far
+                    you zoom (until floating&#8209;point precision gives out). I wrote this
+                    plotter to run in parallel on the GPU for high&#8209;framerate exploration.
+                </p>
+                <div class="project-media">
+                    <video
+                        class="media"
+                        style="--ar: 1.7778;"
+                        data-src="Assets/Images/MandelbrotZoomVideo.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Live Mandelbrot zoom"
+                    ></video>
+                    <img
+                        class="media"
+                        style="--ar: 1.3523;"
+                        src="Assets/Images/MandelbrotCode.png"
+                        alt="Mandelbrot kernel source code"
+                        loading="lazy"
+                    />
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 07 — FUTURE FEST ============ -->
+            <article class="project reveal" id="future-fest">
+                <header class="project-head">
+                    <h3 class="project-title">3D Modelling for Future Fest</h3>
+                </header>
+                <p class="project-description">
+                    Did paid 3D&#8209;modelling work for Future Fest, an NFT video game,
+                    focusing primarily on character accessories. Below: a character wearing
+                    one of my hats, and the in&#8209;game store featuring more characters
+                    whose hats I designed.
+                </p>
+                <div class="project-media">
+                    <img
+                        class="media"
+                        style="--ar: 1.3170;"
+                        src="Assets/Images/FutureFestHomeScreen.png"
+                        alt="Future Fest home screen showing a character with a designed hat"
+                        loading="lazy"
+                    />
+                    <img
+                        class="media"
+                        style="--ar: 1.9887;"
+                        src="Assets/Images/FutureFestStore.png"
+                        alt="Future Fest in-game store with character cosmetics"
+                        loading="lazy"
+                    />
+                </div>
+            </article>
+
+            <!-- ============ PROJECT 08 — PHYSICS SIMS ============ -->
+            <article class="project reveal" id="physics-sims">
+                <header class="project-head">
+                    <h3 class="project-title">Physics Simulations</h3>
+                </header>
+                <p class="project-description">
+                    Took concepts from AP Physics and turned them into interactive
+                    simulations: a cloth solver, an N&#8209;body gravity sim, and a particle
+                    system using sparse&#8209;grid collision optimization for large counts.
+                </p>
+                <div class="project-media">
+                    <video
+                        class="media"
+                        style="--ar: 1.7767;"
+                        data-src="Assets/Images/VerletSim.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Verlet particle simulation"
+                    ></video>
+                    <video
+                        class="media"
+                        style="--ar: 1.3333;"
+                        data-src="Assets/Images/ClothSimVid.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Cloth simulation"
+                    ></video>
+                    <video
+                        class="media"
+                        style="--ar: 1.0000;"
+                        data-src="Assets/Images/GalaxyVid.mp4"
+                        muted loop playsinline preload="none"
+                        aria-label="Galaxy gravity simulation"
+                    ></video>
+                </div>
+            </article>
+        </div>
     </main>
 
-    <footer class="site-footer">
-        <p>&copy; <span id="year"></span> Nico</p>
+    <!-- ============ CONTACT / FOOTER ============ -->
+    <footer id="contact" class="footer">
+        <div class="container footer-grid">
+            <div class="footer-cta reveal">
+                <p class="section-eyebrow">Contact</p>
+                <h2 class="footer-title">Let's build <em>something.</em></h2>
+                <p class="footer-sub">
+                    Open to internships, collaborations, and freelance work. The fastest
+                    way to reach me is email.
+                </p>
+            </div>
+
+            <ul class="footer-links reveal" aria-label="Contact links">
+                <!-- TODO: replace these placeholder links with your real ones -->
+                <li>
+                    <a href="mailto:npietro@umich.edu">
+                        <span class="link-label">Email</span>
+                        <span class="link-value">npietro@umich.edu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/nicop451" target="_blank" rel="noopener">
+                        <span class="link-label">GitHub</span>
+                        <span class="link-value">github.com/nicop451</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/nicholas-pietronuto/" target="_blank" rel="noopener">
+                        <span class="link-label">LinkedIn</span>
+                        <span class="link-value">linkedin.com/in/nicholas-pietronuto</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="container footer-bottom">
+            <p>&copy; <span id="year">2026</span> Nicholas Pietronuto</p>
+            <a href="#top" class="back-to-top">Back to top &uarr;</a>
+        </div>
     </footer>
 
-    <script src="script.js?v=4" defer></script>
+    <!-- ============ LIGHTBOX (click any project media to enlarge) ============ -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Media viewer">
+        <button class="lightbox-close" type="button" aria-label="Close">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="5"  y1="5"  x2="17" y2="17" />
+                <line x1="17" y1="5"  x2="5"  y2="17" />
+            </svg>
+        </button>
+        <div class="lightbox-stage"></div>
+    </div>
+
+    <script src="script.js" defer></script>
 </body>
 </html>
